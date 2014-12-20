@@ -1,15 +1,42 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Assignment 2
+## We do a function to store the function to calculate
+## the inverse of a Matrix.
+## We do a second function that checks whether the first 
+## function has been used or not, and returns the cached 
+## value in the first case in order to save computing time. 
+## Otherwise it calculates the inverse. 
 
-## Write a short comment describing this function
+## This function stores the function to calculate the 
+## inverse of the matrix x ( note matrix x must be squared)
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setinv <- function(solve) m <<- solve
+  getinv <- function() m
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 
-## Write a short comment describing this function
+## This function calls the previous function (makeCacheMatrix)
+## and either gets the cached values or, if it's run for 
+## the first time it calculates the inverse matrix of x
+## In either case the inverse matrix is returned
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  m <- x$getinv()
+  if(!is.null(m)) {
+    message("getting cached data")
+    return(m)
+  }
+  data <- x$get()
+  m <- solve(data, ...)
+  x$setinv(m)
+  m
 }
